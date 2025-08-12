@@ -1,14 +1,32 @@
 package model;
 
-public class Book {
-    private  int id;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Book implements Comparable {
+    public static List<Book> allBooks=new ArrayList<>();
+//    public static int bookId=0;
+    private String ISBN;
     private String bName;
     private String authorName;
-    private String ISBN;
     private int quantity;
     private  String category;
     private String publication;
     private Status status;
+    private int edition;
+
+    public Book(String bName, String authorName, String ISBN, int quantity, String category, String publication, int edition) {
+//        this.id = ++bookId;
+        this.bName = bName;
+        this.authorName = authorName;
+        this.ISBN = ISBN;
+        this.quantity = quantity;
+        this.category = category;
+        this.publication = publication;
+        this.status = Status.available;
+        this.edition = edition;
+        allBooks.add(this);
+    }
 
     public Status getStatus() {
         return status;
@@ -34,15 +52,6 @@ public class Book {
         this.publication = publication;
     }
 
-    private int edition;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getbName() {
         return bName;
@@ -82,5 +91,25 @@ public class Book {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "ISBN='" + ISBN + '\'' +
+                ", bName='" + bName + '\'' +
+                ", authorName='" + authorName + '\'' +
+                ", quantity=" + quantity +
+                ", category='" + category + '\'' +
+                ", publication='" + publication + '\'' +
+                ", status=" + status +
+                ", edition=" + edition +
+                '}';
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

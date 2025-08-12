@@ -1,42 +1,57 @@
 package service;
 
+import exception.AdminNotFoundException;
+import exception.UserNotFoundException;
 import model.Admin;
 import model.Borrower;
+import model.Admin;
+import model.User;
 
 import java.util.List;
 
+import static model.Admin.adminList;
+
 public class AuthService {
 
-    public String borrowerLogin(String email, String password, List<Borrower> allBorrower){
+    public Borrower borrowerLogin(String email, String password, List<Borrower> allBorrower){
         for(Borrower i:allBorrower){
             if(i.getEmail().equals(email)) {
                 if(i.getPassword().equals(password)){
                     i.setLoggedIn(true);
-                    return  "Logged in successfully as Borrower..!"+"\nHello "+i.getName()+" !";
+                    System.out.println("Logged in successfully as Borrower..!"+"\nHello "+i.getName()+" !");
+                    return i;
                 }
                 else{
-                    return "Incorrect password..!";
+                    System.out.println("Incorrect password..!");
+                    return null;
                 }
             }
         }
-        return  "Invalid Credentials";
+        throw new UserNotFoundException();
     }
 
-    public String adminLogin(String email,String password , List<Admin> allAdmins){
+    public Admin adminLogin(String email,String password) throws AdminNotFoundException {
+        List <Admin> allAdmins=adminList;
         for(Admin i:allAdmins){
             if(i.getEmail().equals(email)) {
                 if(i.getPassword().equals(password)){
                     i.setLoggedIn(true);
-                    return  "Logged in successfully as Admin..!"+"\nHello "+i.getName()+" !";
+                    System.out.println("Logged in successfully as Admin..!"+"\nHello "+i.getName()+" !");
+                    return i;
                 }
                 else{
-                    return "Incorrect password..!";
+                    System.out.println("Incorrect password..!");
+                    return null;
                 }
             }
         }
-        return  "Invalid Credentials";
+        throw  new AdminNotFoundException();
     }
 
-//    public String adminLogout(String)
+    public void logout(User currLoggedIn) {
+
+    }
+
+//    public String adminLogout()
 
 }

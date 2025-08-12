@@ -4,13 +4,27 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class User {
-    private String name;
-    private String phoneNo;
-    private String address;
-    private String email;
-    private String password;
-    private LocalDate dob;
-    private boolean loggedIn;
+        private String name;
+        private String phoneNo;
+        private String address;
+        private String email;
+        private String password;
+        private LocalDate dob;
+        private boolean loggedIn;
+
+    public User(String name, String phoneNo, String address, String email, String password, LocalDate dob) {
+        this.name = name;
+        this.phoneNo = phoneNo;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.dob = dob;
+        this.loggedIn = false;
+    }
+
+    public User() {
+
+    }
 
     public LocalDate getDob() {
         return dob;
