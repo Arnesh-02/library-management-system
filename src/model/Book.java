@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book implements Comparable {
+public class Book {
     public static List<Book> allBooks=new ArrayList<>();
 //    public static int bookId=0;
     private String ISBN;
@@ -108,8 +108,4 @@ public class Book implements Comparable {
     }
 
 
-    @Override
-    public int compareTo(Object o) {
-        return 0;
-    }
 }

@@ -1,12 +1,9 @@
 import exception.AdminNotFoundException;
 import model.Admin;
-import model.Borrower;
 import model.User;
 import service.AuthService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static model.Admin.adminList;

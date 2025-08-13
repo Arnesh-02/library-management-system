@@ -6,6 +6,8 @@ import model.Book;
 import model.Status;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,7 +16,6 @@ import static model.Book.allBooks;
 public class AdminService {
     public Scanner sc=new Scanner(System.in);
     public AdminService(){
-
     }
 
     public void listAdminServices(){
@@ -136,4 +137,51 @@ public class AdminService {
         }
         throw new BookNotFoundException();
     }
+
+    public void sortFunctions(char ch){
+        switch (ch){
+            case 'a'-> {
+                Comparator<Book> compName=new Comparator<Book>() {
+                    @Override
+                    public int compare(Book o1, Book o2) {
+                        return o1.getbName().compareTo(o2.getbName());
+                    }
+                };
+                Collections.sort(allBooks,compName);
+            }
+
+            case  'b'->{
+                Comparator<Book> compQuantity=new Comparator<Book>() {
+                    @Override
+                    public int compare(Book o1, Book o2) {
+                        return o1.getQuantity()>o2.getQuantity()?1:-1;
+                    }
+                };
+                Collections.sort(allBooks,compQuantity);
+            }
+        }
+        for(Book i:allBooks){
+            System.out.println(i);
+        }
+    }
+
+    public Book searchBookByName(String bookName){
+        for(Book book:allBooks){
+            if(book.getbName().equals(bookName)){
+                return  book;
+            }
+        }
+        throw new BookNotFoundException();
+    }
+
+    public  Book searchBookByISBN(String isbn){
+        for(Book book:allBooks){
+            if(book.getISBN().equals(isbn)){
+                return book;
+            }
+        }
+        throw new BookNotFoundException();
+    }
+
+
 }
