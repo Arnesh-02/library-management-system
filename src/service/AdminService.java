@@ -18,73 +18,12 @@ public class AdminService {
     public AdminService(){
     }
 
-    public void listAdminServices(){
-        System.out.println("\n--- Admin Services ---");
-        System.out.println("1. Add a Book");
-        System.out.println("2. Modify Book details (e.g., Available Quantity)");
-        System.out.println("3. Delete a Book");
-        System.out.println("4. Add other Admins");
-        System.out.println("5. Add Borrowers");
-        System.out.println("6. View list of all Books sorted by:");
-        System.out.println("   a) Name");
-        System.out.println("   b) Available Quantity");
-        System.out.println("7. Search for a Book by:");
-        System.out.println("   a) Name");
-        System.out.println("   b) ISBN");
-        System.out.println("8. Manage Borrowers' fine limit");
-    }
 
-    public void addAdmin(){
-
-        System.out.print("Enter name: ");
-        String name = sc.nextLine();
-
-        System.out.print("Enter phone number: ");
-        String phoneNo = sc.nextLine();
-
-        System.out.print("Enter address: ");
-        String address = sc.nextLine();
-
-        System.out.print("Enter email: ");
-        String email = sc.nextLine();
-
-        System.out.print("Enter password: ");
-        String password = sc.nextLine();
-
-        System.out.print("Enter DOB (YYYY-MM-DD): ");
-        LocalDate dob = LocalDate.parse(sc.nextLine());
-
-
-        System.out.print("Enter salary: ");
-        int salary = Integer.parseInt(sc.nextLine());
-
+    public void addAdmin(String name,String phoneNo,String address,String email,String password,LocalDate dob,int salary){
         Admin newAdmin=new Admin(name,phoneNo,address,email,password,dob,salary);
         System.out.println("New Admin added successfully..!");
     }
-    public void addBook(){
-
-        System.out.print("Enter book name: ");
-        String bName = sc.nextLine();
-
-        System.out.print("Enter author name: ");
-        String authorName = sc.nextLine();
-
-        System.out.print("Enter ISBN: ");
-        String ISBN = sc.nextLine();
-
-        System.out.print("Enter quantity: ");
-        int quantity = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Enter category(Programming,Comics..): ");
-        String category = sc.nextLine();
-
-        System.out.print("Enter publication(Sura,Doms..): ");
-        String publication = sc.nextLine();
-
-        System.out.print("Enter edition(2011,2025): ");
-        int edition = sc.nextInt();
-
+    public void addBook(String bName,String authorName,String ISBN,int quantity,String category,String publication,int edition){
         Book newBook=new Book(bName,authorName,ISBN,quantity,category,publication,edition);
         System.out.println("New book added successfully..!");
     }
@@ -120,14 +59,13 @@ public class AdminService {
                 System.out.print("Enter updated edition (leave blank to keep '" + book.getEdition() + "'): ");
                 input = sc.nextLine();
                 if (!input.isBlank()) book.setEdition(Integer.parseInt(input));
+                return;
             }
         }
+        throw new BookNotFoundException();
     }
 
-    public void deleteBook(){
-        System.out.println("Enter the ISBN number of the book to be deleted");
-        String isbn=sc.nextLine();
-
+    public void deleteBook(String isbn){
         for(Book i: allBooks){
             if(i.getISBN().equals(isbn)){
                 allBooks.remove(i);
@@ -138,31 +76,26 @@ public class AdminService {
         throw new BookNotFoundException();
     }
 
-    public void sortFunctions(char ch){
-        switch (ch){
-            case 'a'-> {
-                Comparator<Book> compName=new Comparator<Book>() {
-                    @Override
-                    public int compare(Book o1, Book o2) {
-                        return o1.getbName().compareTo(o2.getbName());
-                    }
-                };
-                Collections.sort(allBooks,compName);
-            }
 
-            case  'b'->{
-                Comparator<Book> compQuantity=new Comparator<Book>() {
-                    @Override
-                    public int compare(Book o1, Book o2) {
-                        return o1.getQuantity()>o2.getQuantity()?1:-1;
-                    }
-                };
-                Collections.sort(allBooks,compQuantity);
+
+    public void sortByName(){
+        Comparator<Book> compName=new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getbName().compareTo(o2.getbName());
             }
-        }
-        for(Book i:allBooks){
-            System.out.println(i);
-        }
+        };
+        Collections.sort(allBooks,compName);
+    }
+
+    public void sortByQuantity(){
+        Comparator<Book> compQuantity=new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getQuantity()>o2.getQuantity()?1:-1;
+            }
+        };
+        Collections.sort(allBooks,compQuantity);
     }
 
     public Book searchBookByName(String bookName){

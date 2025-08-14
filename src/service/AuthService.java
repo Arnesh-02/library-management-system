@@ -48,7 +48,8 @@ public class AuthService {
         throw  new AdminNotFoundException();
     }
 
-    public void logout(User currLoggedIn) {
+    public void logout(User user) {
+//        AuthService.currLoggedIn=null;
 
     }
 
