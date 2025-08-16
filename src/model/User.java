@@ -1,7 +1,8 @@
 package model;
 
 import java.time.LocalDate;
-import java.util.Date;
+
+import static service.AuthService.allUsers;
 
 public class User {
         private String name;
@@ -10,16 +11,25 @@ public class User {
         private String email;
         private String password;
         private LocalDate dob;
-        private boolean loggedIn;
+        private Roles role;
 
-    public User(String name, String phoneNo, String address, String email, String password, LocalDate dob) {
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
+
+    public User(String name, String phoneNo, String address, String email, String password, LocalDate dob, Roles role) {
         this.name = name;
         this.phoneNo = phoneNo;
         this.address = address;
         this.email = email;
         this.password = password;
         this.dob = dob;
-        this.loggedIn = false;
+        this.role = role;
+        allUsers.add(this);
     }
 
     public User() {
@@ -34,13 +44,6 @@ public class User {
         this.dob = dob;
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
 
     public String getName() {
         return name;
@@ -78,7 +81,21 @@ public class User {
         return password;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", dob=" + dob +
+                ", role=" + role +
+                '}';
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

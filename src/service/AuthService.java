@@ -1,58 +1,59 @@
 package service;
 
-import exception.AdminNotFoundException;
+
 import exception.UserNotFoundException;
-import model.Admin;
-import model.Borrower;
-import model.Admin;
 import model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static model.Admin.adminList;
-
 public class AuthService {
+    private static User currLoggedIn=null;
+    private static boolean overallLoggedInStatus;
+    public static List<User> allUsers=new ArrayList<>();
 
-    public Borrower borrowerLogin(String email, String password, List<Borrower> allBorrower){
-        for(Borrower i:allBorrower){
+    public static User getCurrLoggedIn() {
+        return currLoggedIn;
+    }
+
+    public static void setCurrLoggedIn(User currLoggedIn) {
+        AuthService.currLoggedIn = currLoggedIn;
+    }
+
+    public static boolean isOverallLoggedInStatus() {
+        return overallLoggedInStatus;
+    }
+
+    public static void setOverallLoggedInStatus(boolean overallLoggedInStatus) {
+        AuthService.overallLoggedInStatus = overallLoggedInStatus;
+    }
+
+    public void login(String email, String password){
+        for(User i:allUsers){
             if(i.getEmail().equals(email)) {
                 if(i.getPassword().equals(password)){
-                    i.setLoggedIn(true);
-                    System.out.println("Logged in successfully as Borrower..!"+"\nHello "+i.getName()+" !");
-                    return i;
+                    System.out.println("Logged in successfully as "+i.getRole()+"..!"+"\nHello "+i.getName()+" !");
+                    setCurrLoggedIn(i);
+                    setOverallLoggedInStatus(true);
+                    return;
                 }
                 else{
                     System.out.println("Incorrect password..!");
-                    return null;
                 }
             }
         }
         throw new UserNotFoundException();
     }
 
-    public Admin adminLogin(String email,String password) throws AdminNotFoundException {
-        List <Admin> allAdmins=adminList;
-        for(Admin i:allAdmins){
-            if(i.getEmail().equals(email)) {
-                if(i.getPassword().equals(password)){
-                    i.setLoggedIn(true);
-                    System.out.println("Logged in successfully as Admin..!"+"\nHello "+i.getName()+" !");
-                    return i;
-                }
-                else{
-                    System.out.println("Incorrect password..!");
-                    return null;
-                }
-            }
+    public void logout() {
+        if(overallLoggedInStatus){
+            System.out.println("Logged out successfully..!");
+            setOverallLoggedInStatus(false);
+            setCurrLoggedIn(null);
+            return;
         }
-        throw  new AdminNotFoundException();
+        System.out.println("No user is logged in currently..!");
     }
 
-    public void logout(User user) {
-//        AuthService.currLoggedIn=null;
-
-    }
-
-//    public String adminLogout()
 
 }

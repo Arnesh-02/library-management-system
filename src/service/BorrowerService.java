@@ -1,4 +1,4 @@
 package service;
 
-public interface BorrowerService {
+public class BorrowerService {
 }

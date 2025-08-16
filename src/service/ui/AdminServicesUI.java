@@ -2,6 +2,7 @@ package service.ui;
 
 import exception.BookNotFoundException;
 import model.Book;
+import model.Borrower;
 import service.AdminService;
 import service.AuthService;
 
@@ -11,11 +12,11 @@ import java.util.Scanner;
 import static model.Book.allBooks;
 
 public class AdminServicesUI {
-    private  Scanner sc=new Scanner(System.in);
-    AdminService service=new AdminService();
-    AuthService authService=new AuthService();
-    public void chooseAdminServices(){
-        while (true) {
+    private static final Scanner sc = new Scanner(System.in);
+    private static final AdminService service = new AdminService();
+    private static final AuthService authService = new AuthService();
+    public static void chooseAdminServices(){
+        do {
             System.out.println("\n--- Admin Services ---");
             System.out.println("1. Add a Book");
             System.out.println("2. Modify Book details (e.g., Available Quantity)");
@@ -31,9 +32,9 @@ public class AdminServicesUI {
             System.out.println("8. Manage Borrowers' fine limit");
             System.out.println("9. Logout");
             System.out.println("Enter your choice : ");
-            int ch=sc.nextInt();
+            int ch = sc.nextInt();
             sc.nextLine();
-            switch (ch){
+            switch (ch) {
                 case 1:
                     System.out.print("Enter book name: ");
                     String bName = sc.nextLine();
@@ -57,13 +58,13 @@ public class AdminServicesUI {
                     System.out.print("Enter edition(2011,2025): ");
                     int edition = sc.nextInt();
                     sc.nextLine();
-                    service.addBook(bName,authorName,ISBN,quantity,category,publication,edition);
+                    service.addBook(bName, authorName, ISBN, quantity, category, publication, edition);
                     break;
 
                 case 2:
                     try {
                         System.out.println("Enter the isbn of the book to change the details:");
-                        String isbn=sc.nextLine();
+                        String isbn = sc.nextLine();
                         service.modifyBookDetails(isbn);
                         break;
                     } catch (BookNotFoundException e) {
@@ -74,7 +75,7 @@ public class AdminServicesUI {
                 case 3:
                     try {
                         System.out.println("Enter the ISBN number of the book to be deleted");
-                        String Isbn=sc.nextLine();
+                        String Isbn = sc.nextLine();
                         service.deleteBook(Isbn);
                         break;
                     } catch (BookNotFoundException e) {
@@ -105,36 +106,81 @@ public class AdminServicesUI {
                     System.out.print("Enter salary: ");
                     int salary = Integer.parseInt(sc.nextLine());
 
-                    service.addAdmin(name,phoneNo,address,email,password,dob,salary);
+                    service.addAdmin(name, phoneNo, address, email, password, dob, salary);
                     break;
                 case 5:
+                    // Add borrower
+
+                    System.out.print("Enter name: ");
+                    String borName = sc.nextLine();
+
+                    System.out.print("Enter phone number: ");
+                    String borPhoneNo = sc.nextLine();
+
+                    System.out.print("Enter address: ");
+                    String borAddress = sc.nextLine();
+
+                    System.out.print("Enter email: ");
+                    String borEmail = sc.nextLine();
+
+                    System.out.print("Enter password: ");
+                    String borPassword = sc.nextLine();
+
+                    System.out.print("Enter DOB (YYYY-MM-DD): ");
+                    LocalDate borDob = LocalDate.parse(sc.nextLine());
+
+                    Borrower borrower=new Borrower(borName,borPhoneNo,borAddress,borEmail,borPassword,borDob);
+                    System.out.println("Borrower account has been added successfully!");
                     break;
+
                 case 6:
                     System.out.println("Enter the choice:\n1.Sort by Name\n2.Sort by quantity");
-                    char sch=sc.next().charAt(0);
-                    switch (sch){
-                        case 'a'->service.sortByName();
-                        case 'b'->service.sortByQuantity();
-                        default ->{
+                    char sch = sc.next().charAt(0);
+                    switch (sch) {
+                        case 'a' -> service.sortByName();
+                        case 'b' -> service.sortByQuantity();
+                        default -> {
                             System.out.println("Invalid choice");
                         }
                     }
-                    for(Book i:allBooks){
+                    for (Book i : allBooks) {
                         System.out.println(i);
                     }
                     break;
                 case 7:
                     //search for books
+                    System.out.println("Enter option to search book\n1.By name\n2.By ISBN");
+                    int op = sc.nextInt();
+                    try {
+                        switch (op) {
+                            case 1 -> {
+                                System.out.println("Enter name of the book");
+                                String book = sc.next();
+                                System.out.println(service.searchBookByName(book));
+                            }
+                            case 2 -> {
+                                System.out.println("Enter the ISBN Number");
+                                String isbn = sc.next();
+                                System.out.println(service.searchBookByISBN(isbn));
+                            }
+                            default -> System.out.println("Invalid choice");
+                        }
+                    } catch (BookNotFoundException e) {
+                        System.out.println(e.getMessage());
+                    } finally {
+                        continue;
+                    }
                 case 8:
                     //borrower limit change
                 case 9:
-//                    authService.logout();
+                     authService.logout();
+                     return;
                 default:
                     System.out.println("Invalid choice");
                     break;
 
             }
-        }
+        } while (true);
 
     }
 }

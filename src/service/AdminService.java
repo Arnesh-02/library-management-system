@@ -59,6 +59,7 @@ public class AdminService {
                 System.out.print("Enter updated edition (leave blank to keep '" + book.getEdition() + "'): ");
                 input = sc.nextLine();
                 if (!input.isBlank()) book.setEdition(Integer.parseInt(input));
+                System.out.println("Changes has been made successfully..!");
                 return;
             }
         }
@@ -100,7 +101,7 @@ public class AdminService {
 
     public Book searchBookByName(String bookName){
         for(Book book:allBooks){
-            if(book.getbName().equals(bookName)){
+            if(book.getbName().equalsIgnoreCase(bookName)){
                 return  book;
             }
         }
@@ -115,6 +116,7 @@ public class AdminService {
         }
         throw new BookNotFoundException();
     }
+
 
 
 }
