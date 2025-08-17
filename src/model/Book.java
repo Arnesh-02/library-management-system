@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Book {
     public static List<Book> allBooks=new ArrayList<>();
@@ -107,5 +108,16 @@ public class Book {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(ISBN, book.ISBN) && Objects.equals(bName, book.bName);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(ISBN, bName);
+    }
 }

@@ -28,14 +28,14 @@ public class AuthService {
         AuthService.overallLoggedInStatus = overallLoggedInStatus;
     }
 
-    public void login(String email, String password){
+    public User login(String email, String password){
         for(User i:allUsers){
             if(i.getEmail().equals(email)) {
                 if(i.getPassword().equals(password)){
                     System.out.println("Logged in successfully as "+i.getRole()+"..!"+"\nHello "+i.getName()+" !");
                     setCurrLoggedIn(i);
                     setOverallLoggedInStatus(true);
-                    return;
+                    return i;
                 }
                 else{
                     System.out.println("Incorrect password..!");

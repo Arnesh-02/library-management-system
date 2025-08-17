@@ -1,8 +1,12 @@
 import exception.AdminNotFoundException;
 import exception.UserNotFoundException;
 import model.Admin;
+import model.Borrower;
+import model.Roles;
+import model.User;
 import service.AuthService;
 import service.ui.AdminServicesUI;
+import service.ui.BorrowerServiceUi;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -15,6 +19,7 @@ public class Main {
 //    public static  List<Borrower> borrowerList = new ArrayList<>();
 
     public static String[] getEmailAndPassword(){
+        allUsers.forEach(System.out::println);
         System.out.print("Enter Email: ");
         String email = sc.nextLine();
 
@@ -26,14 +31,7 @@ public class Main {
 
     public static void main(String[] args) {
         AuthService authService = new AuthService();
-        Admin admin1 = new Admin();
-        admin1.setName("Admin 1");
-        admin1.setPhoneNo("848484848");
-        LocalDate localDate = LocalDate.of(2004, 11, 21);
-        admin1.setDob(localDate);
-        admin1.setEmail("admin1@gmail.com");
-        admin1.setPassword("123");
-        admin1.setSalary(50000);
+        Admin admin1=new Admin("Arnesh","1232412","aasnfuasf","a@g.com","123",LocalDate.now(),5000);
 
         adminList.add(admin1);
         allUsers.add(admin1);
@@ -52,8 +50,15 @@ public class Main {
                 case 1:
                     try {
                         String[] details =getEmailAndPassword();
-                        authService.login(details[0], details[1]);
-                        AdminServicesUI.chooseAdminServices();
+                        User user = authService.login(details[0], details[1]);
+                        System.out.println(user.getRole());
+
+                        if (user.getRole().equals(Roles.administrator)) {
+                            AdminServicesUI.chooseAdminServices();
+                        } else if (user.getRole().equals(Roles.borrower)) {
+                            BorrowerServiceUi.chooseBorrowerServices((Borrower) user);
+                        }
+
 
                     } catch (UserNotFoundException e) {
                         System.out.println(e.getMessage());
