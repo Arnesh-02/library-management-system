@@ -5,6 +5,7 @@ import model.Admin;
 import model.Book;
 import model.Status;
 
+
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,8 +24,8 @@ public class AdminService {
         Admin newAdmin=new Admin(name,phoneNo,address,email,password,dob,salary);
         System.out.println("New Admin added successfully..!");
     }
-    public void addBook(String bName,String authorName,String ISBN,int quantity,String category,String publication,int edition){
-        Book newBook=new Book(bName,authorName,ISBN,quantity,category,publication,edition);
+    public void addBook(String bName,String authorName,String ISBN,int quantity,String category,String publication,int edition,int price){
+        Book newBook=new Book(bName,authorName,ISBN,quantity,category,publication,edition,price);
         System.out.println("New book added successfully..!");
     }
 
@@ -52,13 +53,18 @@ public class AdminService {
                 input = sc.nextLine();
                 if (!input.isBlank()) book.setPublication(input);
 
-                System.out.print("Enter updated status (AVAILABLE, OUT_OF_STOCK, RESERVED) (leave blank to keep '" + book.getStatus() + "'): ");
+                System.out.print("Enter updated status (AVAILABLE, OUT_OF_STOCK) (leave blank to keep '" + book.getStatus() + "'): ");
                 input = sc.nextLine();
                 if (!input.isBlank()) book.setStatus( Status.valueOf(input.toUpperCase()));
 
                 System.out.print("Enter updated edition (leave blank to keep '" + book.getEdition() + "'): ");
                 input = sc.nextLine();
                 if (!input.isBlank()) book.setEdition(Integer.parseInt(input));
+
+                System.out.print("Enter updated price details (in Rs) (leave blank to keep '" + book.getPrice() + "'): ");
+                input = sc.nextLine();
+                if (!input.isBlank()) book.setPrice(Integer.parseInt(input));
+
                 System.out.println("Changes has been made successfully..!");
                 return;
             }

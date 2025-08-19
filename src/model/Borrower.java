@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Borrower extends User{
     private  int userId;
-    private int depositBalance;
-    private Set<Book> borrowedBooks;
+    private double depositBalance;
+    private List<BorrowedBooks> borrowedBooks;
     private static int userIdCounter=1;
     private Set<Book> checkoutCart=new HashSet<>();
 
@@ -16,7 +16,7 @@ public class Borrower extends User{
         super(name, phoneNo, address, email, password, dob,Roles.borrower);
         this.userId=userIdCounter++;
         this.depositBalance = 1500;
-        this.borrowedBooks = new HashSet<>();
+        this.borrowedBooks = new ArrayList<>();
         allBorrowers.add(this);
     }
 
@@ -36,20 +36,21 @@ public class Borrower extends User{
         this.userId = userId;
     }
 
-    public int getDepositBalance() {
+    public double getDepositBalance() {
         return depositBalance;
     }
 
-    public void setDepositBalance(int depositBalance) {
+    public void setDepositBalance(double depositBalance) {
         this.depositBalance = depositBalance;
     }
 
-
-    public Set<Book> getBorrowedBooks() {
+    public List<BorrowedBooks> getBorrowedBooks() {
         return borrowedBooks;
     }
 
-    public void setBorrowedBooks(Set<Book> borrowedBooks) {
+    public void setBorrowedBooks(List<BorrowedBooks> borrowedBooks) {
         this.borrowedBooks = borrowedBooks;
     }
 }
+
+// have to implement the borrowerService functions like payFine and calculate fine amt

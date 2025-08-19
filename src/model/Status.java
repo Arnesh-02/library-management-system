@@ -1,6 +1,6 @@
 package model;
 
 public enum Status {
-    taken,
-    available;
+    available,
+    out_of_stock
 }

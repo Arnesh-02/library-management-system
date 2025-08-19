@@ -13,10 +13,11 @@ public class Book {
     private int quantity;
     private  String category;
     private String publication;
-    private Status status;
     private int edition;
+    private Status status;
+    private int price;
 
-    public Book(String bName, String authorName, String ISBN, int quantity, String category, String publication, int edition) {
+    public Book(String bName, String authorName, String ISBN, int quantity, String category, String publication, int edition,int price) {
 //        this.id = ++bookId;
         this.bName = bName;
         this.authorName = authorName;
@@ -24,18 +25,12 @@ public class Book {
         this.quantity = quantity;
         this.category = category;
         this.publication = publication;
-        this.status = Status.available;
         this.edition = edition;
+        this.price=price;
+        this.status=Status.available;
         allBooks.add(this);
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
     public int getEdition() {
         return edition;
@@ -53,6 +48,13 @@ public class Book {
         this.publication = publication;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public String getbName() {
         return bName;
@@ -90,8 +92,12 @@ public class Book {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override
@@ -103,10 +109,15 @@ public class Book {
                 ", quantity=" + quantity +
                 ", category='" + category + '\'' +
                 ", publication='" + publication + '\'' +
-                ", status=" + status +
                 ", edition=" + edition +
+                ", price=" + price +
                 '}';
     }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
     @Override
     public boolean equals(Object o) {

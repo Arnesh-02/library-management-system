@@ -57,8 +57,11 @@ public class AdminServicesUI {
 
                     System.out.print("Enter edition(2011,2025): ");
                     int edition = sc.nextInt();
+
+                    System.out.print("Enter the Retail price of the Book: ");
+                    int price=sc.nextInt();
                     sc.nextLine();
-                    service.addBook(bName, authorName, ISBN, quantity, category, publication, edition);
+                    service.addBook(bName, authorName, ISBN, quantity, category, publication, edition,price);
                     break;
 
                 case 2:
@@ -66,22 +69,16 @@ public class AdminServicesUI {
                         System.out.println("Enter the isbn of the book to change the details:");
                         String isbn = sc.nextLine();
                         service.modifyBookDetails(isbn);
-                        break;
                     } catch (BookNotFoundException e) {
                         System.out.println(e.getMessage());
-                    } finally {
-                        continue;
                     }
                 case 3:
                     try {
                         System.out.println("Enter the ISBN number of the book to be deleted");
                         String Isbn = sc.nextLine();
                         service.deleteBook(Isbn);
-                        break;
                     } catch (BookNotFoundException e) {
                         System.out.println(e.getMessage());
-                    } finally {
-                        continue;
                     }
                 case 4:
                     System.out.print("Enter name: ");
@@ -105,6 +102,7 @@ public class AdminServicesUI {
 
                     System.out.print("Enter salary: ");
                     int salary = Integer.parseInt(sc.nextLine());
+
 
                     service.addAdmin(name, phoneNo, address, email, password, dob, salary);
                     break;
@@ -135,10 +133,11 @@ public class AdminServicesUI {
 
                 case 6:
                     System.out.println("Enter the choice:\n1.Sort by Name\n2.Sort by quantity");
-                    char sch = sc.next().charAt(0);
+                    int sch = sc.nextInt();
+                    sc.nextLine();
                     switch (sch) {
-                        case 'a' -> service.sortByName();
-                        case 'b' -> service.sortByQuantity();
+                        case 1 -> service.sortByName();
+                        case 2 -> service.sortByQuantity();
                         default -> {
                             System.out.println("Invalid choice");
                         }
@@ -151,24 +150,23 @@ public class AdminServicesUI {
                     //search for books
                     System.out.println("Enter option to search book\n1.By name\n2.By ISBN");
                     int op = sc.nextInt();
+                    sc.nextLine();
                     try {
                         switch (op) {
                             case 1 -> {
                                 System.out.println("Enter name of the book");
-                                String book = sc.next();
+                                String book = sc.nextLine().trim();
                                 System.out.println(service.searchBookByName(book));
                             }
                             case 2 -> {
                                 System.out.println("Enter the ISBN Number");
-                                String isbn = sc.next();
+                                String isbn = sc.nextLine().trim();
                                 System.out.println(service.searchBookByISBN(isbn));
                             }
                             default -> System.out.println("Invalid choice");
                         }
                     } catch (BookNotFoundException e) {
                         System.out.println(e.getMessage());
-                    } finally {
-                        continue;
                     }
                 case 8:
                     //borrower limit change
@@ -177,7 +175,6 @@ public class AdminServicesUI {
                      return;
                 default:
                     System.out.println("Invalid choice");
-                    break;
 
             }
         } while (true);

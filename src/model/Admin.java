@@ -41,12 +41,4 @@ public class Admin extends User {
         this.salary = salary;
     }
 
-
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "adminId=" + adminId +
-                ", salary=" + salary +
-                '}';
-    }
 }
