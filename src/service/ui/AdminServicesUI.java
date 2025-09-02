@@ -3,6 +3,7 @@ package service.ui;
 import exception.BookNotFoundException;
 import model.Book;
 import model.Borrower;
+import model.Roles;
 import service.AdminService;
 import service.AuthService;
 
@@ -29,7 +30,7 @@ public class AdminServicesUI {
             System.out.println("7. Search for a Book by:");
             System.out.println("   a) Name");
             System.out.println("   b) ISBN");
-            System.out.println("8. Manage Borrowers' fine limit");
+            System.out.println("8. Report view");
             System.out.println("9. Logout");
             System.out.println("Enter your choice : ");
             int ch = sc.nextInt();
@@ -169,7 +170,8 @@ public class AdminServicesUI {
                         System.out.println(e.getMessage());
                     }
                 case 8:
-                    //borrower limit change
+                    ReportServiceUi.showReports(Roles.administrator.toString(),AuthService.getCurrLoggedIn());
+                    break;
                 case 9:
                      authService.logout();
                      return;

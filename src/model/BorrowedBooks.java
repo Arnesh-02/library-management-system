@@ -1,8 +1,11 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BorrowedBooks{
+    private Borrower borrower;
     private Book book;
     private LocalDate borrowedDate;
     private LocalDate dueDate;
@@ -10,8 +13,10 @@ public class BorrowedBooks{
     private double fine;
     private int extensionsMade;
     private BookStatus bookStatus;
+    public static List<BorrowedBooks> allBorrowedBooks = new ArrayList<>();
 
-    public BorrowedBooks(Book book, LocalDate borrowedDate, LocalDate dueDate) {
+    public BorrowedBooks(Borrower borrower,Book book, LocalDate borrowedDate, LocalDate dueDate) {
+        this.borrower=borrower;
         this.book = book;
         this.borrowedDate = borrowedDate;
         this.dueDate = dueDate;
@@ -21,6 +26,13 @@ public class BorrowedBooks{
         this.bookStatus=BookStatus.taken;
     }
 
+    public Borrower getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(Borrower borrower) {
+        this.borrower = borrower;
+    }
 
     public BookStatus getBookStatus() {
         return bookStatus;
@@ -81,7 +93,8 @@ public class BorrowedBooks{
     @Override
     public String toString() {
         return "BorrowedBooks{" +
-                "book=" + book +
+                "  borrowerName=" + borrower.getName() +
+                ", book=" + book +
                 ", borrowedDate=" + borrowedDate +
                 ", dueDate=" + dueDate +
                 ", returnDate=" + returnDate +

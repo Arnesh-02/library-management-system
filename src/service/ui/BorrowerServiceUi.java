@@ -3,7 +3,9 @@ package service.ui;
 import model.Book;
 import model.BorrowedBooks;
 import model.Borrower;
+import model.Roles;
 import service.BorrowerService;
+import service.ReportService;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -18,6 +20,7 @@ public class BorrowerServiceUi {
         boolean running = true;
 
         do {
+            System.out.println("\n===== BORROWER MENU =====");
             System.out.println("1. View All Books");
             System.out.println("2. View Cart");
             System.out.println("3. Add Book to Cart");
@@ -31,8 +34,9 @@ public class BorrowerServiceUi {
             System.out.println("11. Extend the tenure of borrow");
             System.out.println("12. Exchange the book");
             System.out.println("13. View deposit balance");
-            System.out.println("14. Exit Borrower Menu");
-
+            System.out.println("14. View report");
+            System.out.println("15. Exit Borrower Menu");
+            System.out.println("\n==============");
             System.out.print("Choose an option: ");
             int choice;
             try {
@@ -93,9 +97,21 @@ public class BorrowerServiceUi {
                         }
                     }
 
-                    case 5 ->borrowerService.getAllCheckoutCartBooks(borrower);
+                    case 5 ->{
+                        if (borrower.getCheckoutCart().isEmpty()) {
+                            System.out.println("Cart is empty.");
+                            break;
+                        }
+                        borrowerService.getAllCheckoutCartBooks(borrower);
+                    }
 
-                    case 6 -> borrowerService.checkout(borrower);
+                    case 6 -> {
+                        if (borrower.getCheckoutCart().isEmpty()) {
+                            System.out.println("Cart is empty.");
+                            break;
+                        }
+                        borrowerService.checkout(borrower);
+                    }
 
                     case 7 ->{
                         if(borrower.getBorrowedBooks().isEmpty())
@@ -199,6 +215,10 @@ public class BorrowerServiceUi {
                     case 13 ->borrowerService.getDepositBalance(borrower);
 
                     case 14 -> {
+                        ReportServiceUi.showReports(Roles.borrower.toString(), borrower);
+                    }
+
+                    case 15-> {
                         System.out.println("Exiting Borrower Menu...");
                         running = false;
                     }

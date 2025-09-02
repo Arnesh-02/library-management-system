@@ -16,9 +16,17 @@ public class Book {
     private int edition;
     private Status status;
     private int price;
+    private int borrowCount;
 
-    public Book(String bName, String authorName, String ISBN, int quantity, String category, String publication, int edition,int price) {
-//        this.id = ++bookId;
+    public int getBorrowCount() {
+        return borrowCount;
+    }
+
+    public void setBorrowCount(int borrowCount) {
+        this.borrowCount = borrowCount;
+    }
+
+    public Book(String bName, String authorName, String ISBN, int quantity, String category, String publication, int edition, int price) {
         this.bName = bName;
         this.authorName = authorName;
         this.ISBN = ISBN;
@@ -28,6 +36,7 @@ public class Book {
         this.edition = edition;
         this.price=price;
         this.status=Status.available;
+        this.borrowCount=0;
         allBooks.add(this);
     }
 
@@ -111,6 +120,7 @@ public class Book {
                 ", publication='" + publication + '\'' +
                 ", edition=" + edition +
                 ", price=" + price +
+                ", borrowCount="+borrowCount+
                 '}';
     }
 

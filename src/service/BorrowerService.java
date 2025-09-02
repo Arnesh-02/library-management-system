@@ -70,8 +70,9 @@ public class BorrowerService {
             return;
         }
         for (Book book : borrower.getCheckoutCart()) {
-            borrower.getBorrowedBooks().add(new BorrowedBooks(book,LocalDate.now(),LocalDate.now().plusDays(15)));
+            borrower.getBorrowedBooks().add(new BorrowedBooks(borrower,book,LocalDate.now(),LocalDate.now().plusDays(15)));
             book.setQuantity(book.getQuantity() - 1);
+            book.setBorrowCount(book.getBorrowCount()+1);
         }
         borrower.getCheckoutCart().clear();
         System.out.println("Checkout complete.");
@@ -129,7 +130,6 @@ public class BorrowerService {
                 "As per library policy, you are required to pay the replacement cost or the applicable fine. " +
                 "Kindly settle this.\n");
         payFine(borrower,borrowedBook);
-        borrower.getBorrowedBooks().remove(borrowedBook);
     }
 
     public void reportMemberShipCardLost(Borrower borrower){
@@ -167,6 +167,7 @@ public class BorrowerService {
         BorrowedBooks borrowedBook = findBorrowedBook(borrower, bookToReturn);
         double fine = calculateBookFine(borrower, bookToReturn, returnDate);
         borrowedBook.setBookStatus(BookStatus.returned);
+        borrowedBook.setReturnDate(returnDate);
         borrowedBook.setFine(fine);
         payFine(borrower, borrowedBook);
         bookToReturn.setQuantity(bookToReturn.getQuantity()+1);
@@ -214,7 +215,6 @@ public class BorrowerService {
             System.out.println("Amount to be paid Rs. " + fine);
             System.out.println("Pay the fine to the counter");
         }
-        borrower.getBorrowedBooks().remove(borrowedBook);
     }
 
 }
