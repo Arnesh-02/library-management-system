@@ -163,6 +163,7 @@ public class BorrowerService {
         }
     }
 
+
     public void returnABook(Borrower borrower, Book bookToReturn, LocalDate returnDate) {
         BorrowedBooks borrowedBook = findBorrowedBook(borrower, bookToReturn);
         double fine = calculateBookFine(borrower, bookToReturn, returnDate);

@@ -1,13 +1,13 @@
 package service.ui;
 
-import model.Book;
-import model.BorrowedBooks;
-import model.Borrower;
-import model.Roles;
+import model.*;
 import service.BorrowerService;
 import service.ReportService;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static model.Book.allBooks;
@@ -127,11 +127,19 @@ public class BorrowerServiceUi {
                         System.out.print("Enter ISBN or Book Name to report as lost: ");
                         String input = sc.nextLine();
 
-                        Book lostBook = borrower.getBorrowedBooks().stream()
+                        Book lostBook = Optional.ofNullable(borrower.getBorrowedBooks())
+                                .orElse(Collections.emptyList())
+                                .stream()
                                 .map(BorrowedBooks::getBook)
-                                .filter(b -> b.getISBN().equalsIgnoreCase(input) || b.getbName().equalsIgnoreCase(input))
+                                .filter(Objects::nonNull)
+                                .filter(b ->
+                                        (input != null &&
+                                                (input.equalsIgnoreCase(b.getISBN()) || input.equalsIgnoreCase(b.getbName())))
+                                                && BookStatus.taken.equals(b.getStatus())
+                                )
                                 .findFirst()
                                 .orElse(null);
+
 
                         if (lostBook != null) {
                             borrowerService.reportLostBook(borrower, lostBook);
